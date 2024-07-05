@@ -11,7 +11,9 @@ chrome.storage.local.get(["hasReadBible", "lastReadDate"], function (data) {
 });
 
 const allowedWebsites = [
+  "www.bible.com",
   "bible.com",
+  "my.bible.com",
   "www.jointhejourney.com",
   "biblebot.dev",
   "soulrest.melos.church",

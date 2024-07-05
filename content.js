@@ -7,7 +7,7 @@ function createBanner() {
   banner.style.top = '0';
   banner.style.left = '0';
   banner.style.width = '100%';
-  banner.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+  banner.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   banner.style.color = 'white';
   banner.style.textAlign = 'center';
   banner.style.padding = '10px';
@@ -18,11 +18,15 @@ function createBanner() {
 
 function updateBanner() {
   const banner = document.getElementById('breakBanner');
-  if (banner && breakEndTime) {
-    const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
-    const minutes = Math.floor(remainingTime / 60000);
-    const seconds = Math.floor((remainingTime % 60000) / 1000);
-    banner.textContent = `Break Time: ${minutes}m ${seconds}s remaining`;
+  if (banner) {
+    if (breakEndTime) {
+      const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
+      const minutes = Math.floor(remainingTime / 60000);
+      const seconds = Math.floor((remainingTime % 60000) / 1000);
+      banner.textContent = `Break Time: ${minutes}m ${seconds}s remaining`;
+    } else {
+      banner.textContent = "Focus: Read the Bible";
+    }
   }
 }
 
@@ -37,5 +41,6 @@ chrome.runtime.sendMessage({ action: 'getBreakEndTime' }, function(response) {
     updateBanner();
   } else {
     console.log("No breakEndTime found.");
+    updateBanner();
   }
 });
