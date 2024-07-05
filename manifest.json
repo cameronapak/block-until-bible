@@ -5,7 +5,8 @@
   "permissions": [
     "webNavigation",
     "tabs",
-    "storage"
+    "storage",
+    "activeTab"
   ],
   "background": {
     "service_worker": "background.js"
@@ -14,6 +15,13 @@
     {
       "resources": ["block.html"],
       "matches": ["*://*/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ]
 }
