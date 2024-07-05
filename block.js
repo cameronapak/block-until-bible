@@ -1,4 +1,3 @@
-// block.js
 document.getElementById('confirmButton').addEventListener('click', function () {
   if (window.confirm("Are you sure you have read the Bible today?")) {
     chrome.runtime.sendMessage({ action: "confirmBibleReading" });
