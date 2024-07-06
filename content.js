@@ -1,48 +1,100 @@
 let breakEndTime = null;
 let hasReadBible = false;
+let isEnabled = true;
+
+const iconSvg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M19 4v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12z"/>
+    <path d="M19 16H7a2 2 0 0 0-2 2m7-11v6m-2-4h4"/>
+  </g>
+</svg>
+`.trim();
 
 function createBanner() {
-  const banner = document.createElement('div');
-  banner.id = 'breakBanner';
-  banner.style.position = 'fixed';
-  banner.style.top = '0';
-  banner.style.left = '0';
-  banner.style.width = '100%';
-  banner.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  banner.style.color = 'white';
-  banner.style.textAlign = 'center';
-  banner.style.padding = '12px';
-  banner.style.fontFamily = 'Arial, sans-serif';
-  banner.style.zIndex = '9999';
-  banner.style.pointerEvents = 'none';
-  document.body.appendChild(banner);
+  const bannerHTML = `
+      <div id="breakBanner" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        text-align: center;
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+        font-family: 'Arial', sans-serif !important;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        z-index: 9999;
+      ">
+        <div id="iconContainer" style="cursor: pointer;">
+          ${iconSvg}
+        </div>
+        <span id="bannerText"></span>
+      </div>
+    `;
+  document.body.insertAdjacentHTML('beforeend', bannerHTML);
+  
+  // Add click event listener to the icon
+  document.getElementById('iconContainer').addEventListener('click', handleIconClick);
+}
+
+function handleIconClick() {
+  chrome.runtime.sendMessage({ action: "openBlockPage" });
 }
 
 function updateBanner() {
   const banner = document.getElementById('breakBanner');
-  if (banner) {
-    if (hasReadBible) {
+  const bannerText = document.getElementById('bannerText');
+  if (banner && bannerText) {
+    if (!isEnabled || hasReadBible) {
       banner.style.display = 'none';
-    } else if (breakEndTime) {
-      const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
-      const minutes = Math.floor(remainingTime / 60000);
-      const seconds = Math.floor((remainingTime % 60000) / 1000);
-      banner.textContent = `Break Time: ${minutes}m ${seconds}s remaining`;
-      banner.style.display = 'block';
     } else {
-      banner.textContent = "Focus: Read the Bible";
-      banner.style.display = 'block';
+      banner.style.display = 'flex';
+      if (breakEndTime) {
+        const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
+        const minutes = Math.floor(remainingTime / 60000);
+        const seconds = Math.floor((remainingTime % 60000) / 1000);
+        bannerText.textContent = `Break: ${minutes}m ${seconds}s remaining`;
+      } else {
+        bannerText.textContent = "Focus: Read the Bible";
+      }
     }
   }
 }
 
-createBanner();
-updateBanner();
-setInterval(updateBanner, 1000);
+function init() {
+  chrome.storage.local.get(['isEnabled', 'breakEndTime', 'hasReadBible'], function (result) {
+    isEnabled = result.isEnabled !== undefined ? result.isEnabled : true;
+    breakEndTime = result.breakEndTime !== undefined ? result.breakEndTime : null;
+    hasReadBible = result.hasReadBible !== undefined ? result.hasReadBible : false;
 
-// Get the breakEndTime from the background script
-chrome.runtime.sendMessage({ action: 'getStorageData' }, function (response) {
-  breakEndTime = response.breakEndTime || null;
-  hasReadBible = response.hasReadBible || false;
-  updateBanner();
-});
+    createBanner();
+    updateBanner();
+
+    // Use setInterval instead of chrome.alarms
+    setInterval(updateBanner, 1000); // Run every second
+
+    // Add storage change listener
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'local') {
+        if ('isEnabled' in changes) {
+          isEnabled = Boolean(changes.isEnabled.newValue || false);
+        }
+        if ('breakEndTime' in changes) {
+          breakEndTime = changes.breakEndTime.newValue;
+        }
+        if ('hasReadBible' in changes) {
+          hasReadBible = changes.hasReadBible.newValue;
+        }
+
+        updateBanner();
+      }
+    });
+  });
+}
+
+init();

@@ -33,3 +33,7 @@ the user confirms they have read the Bible or takes a short break.
 
 - `manifest.json`: Defines the extension's permissions, background script, and
   web accessible resources
+
+## Attribution
+
+- The logo icon is from IconBuddy.app

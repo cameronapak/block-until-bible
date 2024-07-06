@@ -63,11 +63,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
       chrome.storage.local.set({ breakEndTime: breakEndTime });
       break;
-    case "getStorageData":
-      chrome.storage.local.get(["breakEndTime", "hasReadBible"], function (data) {
-        sendResponse({ breakEndTime: data.breakEndTime, hasReadBible: hasReadBible });
-      });
-      return true; // Indicate that the response will be sent asynchronously
+    case "openBlockPage":
+      chrome.tabs.create({ url: chrome.runtime.getURL("block.html") });
+      break;
   }
 });
 
