@@ -3,9 +3,8 @@
   "name": "Block Before Bible • Daily Bible Reading Reminder",
   "short_name": "Block Before Bible",
   "version": "1.0",
-  "description": "Encourages daily Bible reading by blocking all non-Bible websites until the user confirms they have read the Bible or takes a short break. Contact: cameronandrewpak@gmail.com",
-  "author": "Cameron Pak",
-  "homepage_url": "https://go.faith.tools/block-until-bible",
+  "description": "Encourages daily Bible reading by blocking all non-Bible websites until the user confirms they have read the Bible or takes a short break.",
+  "author": "Erick Vargas",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

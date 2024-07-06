@@ -32,7 +32,6 @@ const allowedWebsites = [
   "biblebot.dev",
   "soulrest.melos.church",
   "huggingface.co/chat",
-  "faith.tools",
 ];
 
 chrome.webNavigation.onBeforeNavigate.addListener(function (details) {
