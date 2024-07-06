@@ -17,5 +17,6 @@ chrome.storage.local.get("originalUrl", function (data) {
     const url = new URL(data.originalUrl);
     document.getElementById('blockedUrl').href = data.originalUrl;
     document.getElementById('blockedUrl').textContent = url.hostname;
+    document.getElementById("blockedFavicon").src = `https://www.google.com/s2/favicons?domain=${new URL(blockedUrl).hostname}`;
   }
 });
