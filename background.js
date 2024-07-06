@@ -24,7 +24,6 @@ chrome.storage.local.get(["hasReadBible", "lastReadDate"], function (data) {
   }
 });
 
-
 const allowedWebsites = [
   "www.bible.com",
   "bible.com",

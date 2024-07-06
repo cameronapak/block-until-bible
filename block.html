@@ -15,15 +15,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding-block: 24px !important;
       margin: 0;
     }
 
     button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
+      border-radius: 99px !important;
     }
   </style>
   <!-- Semantic CSS -->
@@ -33,29 +31,35 @@
 <body>
   <main>
     <section>
-      <img src="/icons/icon128.png" width="64" height="64" alt="Bible icon" style="border-radius: 16px; margin-bottom: 1rem;" />
-      <h1>Hey, it's Bible Time!</h1>
+      <img src="/icons/icon128.png" width="64" height="64" alt="Bible icon"
+        style="border-radius: 16px; margin-bottom: 1rem;" />
+      <h1>Hey, it's Bible o'clock!</h1>
       <p>
-        Here is a very small subset of some resources you can use to read the Bible:
+        Reading the Bible before using your computer or phone in the morning prioritizes your time with God, fosters
+        spiritual growth, and aligns your thoughts and actions with His will. (Psalm 119:105, Proverbs 3:5-6)
       </p>
-      <ul>
-        <li><a href="https://bible.com" target="_blank">Bible.com</a></li>
-        <li><a href="https://www.jointhejourney.com" target="_blank">Join the Journey</a></li>
-        <li><a href="https://biblebot.dev" target="_blank">Bible Bot</a></li>
-        <li><a href="https://soulrest.melos.church" target="_blank">Soul Rest</a></li>
-      </ul>
+      <details>
+        <summary>Digital Bible Resources</summary>
+        <p>This is a very small subset of resources you can use to read the Bible online.</p>
+        <ul>
+          <li><a href="https://bible.com" target="_blank">Bible.com</a></li>
+          <li><a href="https://www.jointhejourney.com" target="_blank">Join the Journey</a></li>
+          <li><a href="https://biblebot.dev" target="_blank">Bible Bot</a></li>
+          <li><a href="https://soulrest.melos.church" target="_blank">Soul Rest</a></li>
+        </ul>
+      </details>
       <blockquote>
-        <p>
-          Blocked URL: 
+        <small>
+          Blocked URL:
           <img id="blockedFavicon" src="" alt="Favicon" width="16" height="16" style="vertical-align: middle;">
           <a href="" id="blockedUrl"></a>
-        </p>
+        </small>
       </blockquote>
       <button id="confirmButton" type="submit">I confirm that I've read the Bible today</button>
       <button id="breakButton" type="button">I need a 5 min break</button>
       <hr />
       <div>
-        <small>Brought to you by</small>
+        <small>Block Until Bible is brought to you by</small>
         <a href="https://faith.tools" title="Visit faith.tools">
           <svg height="12" viewBox="0 0 1334 165" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M24.9395 86.1989C118.84 -11.4126 247.927 29.8085 341.828 138.551" stroke="black"
