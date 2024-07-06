@@ -56,9 +56,18 @@ function updateBanner() {
       banner.style.display = 'flex';
       if (breakEndTime) {
         const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
-        const minutes = Math.floor(remainingTime / 60000);
-        const seconds = Math.floor((remainingTime % 60000) / 1000);
-        bannerText.textContent = `Break: ${minutes}m ${seconds}s remaining`;
+        if (remainingTime > 0) {
+          const minutes = Math.floor(remainingTime / 60000);
+          const seconds = Math.floor((remainingTime % 60000) / 1000);
+          bannerText.textContent = `Break: ${minutes}m ${seconds}s remaining`;
+        } else {
+          bannerText.textContent = "Break: Time's up!";
+          // Clear breakEndTime
+          chrome.storage.local.set({ breakEndTime: null });
+          // Redirect to the break page
+          const originalUrl = window.location.href;
+          chrome.runtime.sendMessage({ action: "openBlockPage", originalUrl });
+        }
       } else {
         bannerText.textContent = "Focus: Read the Bible";
       }

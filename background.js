@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       chrome.storage.local.set({ breakEndTime: breakEndTime });
       break;
     case "openBlockPage":
-      chrome.tabs.create({ url: chrome.runtime.getURL("block.html") });
+      chrome.tabs.update(sender.tab.id, { url: chrome.runtime.getURL("block.html") });
       break;
   }
 });
