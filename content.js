@@ -11,7 +11,8 @@ function createBanner() {
   banner.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   banner.style.color = 'white';
   banner.style.textAlign = 'center';
-  banner.style.padding = '10px';
+  banner.style.padding = '12px';
+  banner.style.fontFamily = 'Arial, sans-serif';
   banner.style.zIndex = '9999';
   banner.style.pointerEvents = 'none';
   document.body.appendChild(banner);
