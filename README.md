@@ -37,3 +37,5 @@ the user confirms they have read the Bible or takes a short break.
 ## Attribution
 
 - The logo icon is from IconBuddy.app
+- Idea is inspired by Erick Vargas's IP of a blocker that blocks access to
+  distracting apps until the user confirms they have read the Bible.
