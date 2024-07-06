@@ -63,9 +63,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
       chrome.storage.local.set({ breakEndTime: breakEndTime });
       break;
-    case "getBreakEndTime":
-      chrome.storage.local.get("breakEndTime", function (data) {
-        sendResponse({ breakEndTime: data.breakEndTime });
+    case "getStorageData":
+      chrome.storage.local.get(["breakEndTime", "hasReadBible"], function (data) {
+        sendResponse({ breakEndTime: data.breakEndTime, hasReadBible: hasReadBible });
       });
       return true; // Indicate that the response will be sent asynchronously
   }

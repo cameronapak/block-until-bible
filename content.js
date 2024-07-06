@@ -1,4 +1,5 @@
 let breakEndTime = null;
+let hasReadBible = false;
 
 function createBanner() {
   const banner = document.createElement('div');
@@ -19,13 +20,17 @@ function createBanner() {
 function updateBanner() {
   const banner = document.getElementById('breakBanner');
   if (banner) {
-    if (breakEndTime) {
+    if (hasReadBible) {
+      banner.style.display = 'none';
+    } else if (breakEndTime) {
       const remainingTime = Math.max(0, breakEndTime - new Date().getTime());
       const minutes = Math.floor(remainingTime / 60000);
       const seconds = Math.floor((remainingTime % 60000) / 1000);
       banner.textContent = `Break Time: ${minutes}m ${seconds}s remaining`;
+      banner.style.display = 'block';
     } else {
       banner.textContent = "Focus: Read the Bible";
+      banner.style.display = 'block';
     }
   }
 }
@@ -35,12 +40,8 @@ updateBanner();
 setInterval(updateBanner, 1000);
 
 // Get the breakEndTime from the background script
-chrome.runtime.sendMessage({ action: 'getBreakEndTime' }, function(response) {
-  if (response && response.breakEndTime) {
-    breakEndTime = response.breakEndTime;
-    updateBanner();
-  } else {
-    console.log("No breakEndTime found.");
-    updateBanner();
-  }
+chrome.runtime.sendMessage({ action: 'getStorageData' }, function (response) {
+  breakEndTime = response.breakEndTime || null;
+  hasReadBible = response.hasReadBible || false;
+  updateBanner();
 });
