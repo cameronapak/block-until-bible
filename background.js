@@ -1,5 +1,19 @@
 let hasReadBible = false;
 
+function checkBibleReadingStatusForToday() {
+  const today = new Date().toISOString().split('T')[0];
+  chrome.storage.local.get(["hasReadBible", "lastReadDate"], function (data) {
+    if (data.lastReadDate !== today) {
+      hasReadBible = false;
+      chrome.storage.local.set({ hasReadBible: false, lastReadDate: today });
+    } else {
+      hasReadBible = data.hasReadBible || false;
+    }
+  });
+}
+
+checkBibleReadingStatusForToday();
+
 chrome.storage.local.get(["hasReadBible", "lastReadDate"], function (data) {
   const today = new Date().toISOString().split('T')[0];
   if (data.lastReadDate !== today) {
@@ -9,6 +23,7 @@ chrome.storage.local.get(["hasReadBible", "lastReadDate"], function (data) {
     hasReadBible = data.hasReadBible || false;
   }
 });
+
 
 const allowedWebsites = [
   "www.bible.com",
@@ -25,8 +40,9 @@ chrome.webNavigation.onBeforeNavigate.addListener(function (details) {
   const url = new URL(details.url);
   const currentTime = new Date().getTime();
 
+  checkBibleReadingStatusForToday();
+
   chrome.storage.local.get("breakEndTime", function (data) {
-    console.log(data);
     if (data.breakEndTime && currentTime < data.breakEndTime) {
       return; // Allow navigation during the break period
     }
