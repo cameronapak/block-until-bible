@@ -11,13 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function init() {
     // Get data from Chrome local storage
-    chrome.storage.local.get(['isEnabled'], function (result) {
+    chrome.storage.local.get(['isEnabled', 'hasReadBible'], function (result) {
       isEnabled = result.isEnabled !== undefined ? result.isEnabled : true;
       checkbox.checked = isEnabled;
+      hasReadBible = result.hasReadBible !== undefined ? result.hasReadBible : false;
+      if (hasReadBible) {
+        document.getElementById('has-read-bible').style.display = 'block';
+      }
     });
   }
 
   checkbox.addEventListener('change', updateStorage);
-  
+
   init();
 });

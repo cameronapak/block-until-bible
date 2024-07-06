@@ -5,7 +5,7 @@ document.getElementById('confirmButton').addEventListener('click', function () {
 });
 
 document.getElementById('breakButton').addEventListener('click', function () {
-  if (window.confirm("Are you sure you want to take a 5 minute break?")) {
+  if (window.confirm("Are you sure you want to take a 5 minute break? After the break, the blocking will proceed.")) {
     const originalUrl = document.getElementById('blockedUrl').href;
     chrome.runtime.sendMessage({ action: "startBreak", originalUrl: originalUrl });
   }
